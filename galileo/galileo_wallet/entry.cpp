@@ -2,7 +2,7 @@
 #include <galileo/node/rpc.hpp>
 #include <galileo/node/working.hpp>
 #include <galileo/qt/qt.hpp>
-#include <galileo/rai_wallet/icon.hpp>
+#include <galileo/galileo_wallet/icon.hpp>
 
 #include <boost/make_shared.hpp>
 #include <boost/program_options.hpp>

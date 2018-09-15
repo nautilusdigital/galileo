@@ -230,7 +230,7 @@ target_compile_definitions(blake2 PRIVATE -D__SSE2__)
 add_subdirectory(galileo/secure)
 add_subdirectory(galileo/lib)
 add_subdirectory(galileo/node)
-add_subdirectory(galileo/rai_node)
+add_subdirectory(galileo/galileo_node)
 
 if (RAIBLOCKS_TEST)
     if(WIN32)
@@ -284,13 +284,13 @@ if (RAIBLOCKS_GUI)
 	endif ()
 
 	if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-		set (PLATFORM_WALLET_SOURCE galileo/rai_wallet/plat/default/icon.cpp)
+		set (PLATFORM_WALLET_SOURCE galileo/galileo_wallet/plat/default/icon.cpp)
 	elseif (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-		set (PLATFORM_WALLET_SOURCE galileo/rai_wallet/plat/windows/icon.cpp RaiBlocks.rc)
+		set (PLATFORM_WALLET_SOURCE galileo/galileo_wallet/plat/windows/icon.cpp RaiBlocks.rc)
 	elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-		set (PLATFORM_WALLET_SOURCE galileo/rai_wallet/plat/default/icon.cpp)
+		set (PLATFORM_WALLET_SOURCE galileo/galileo_wallet/plat/default/icon.cpp)
 	elseif (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
-		set (PLATFORM_WALLET_SOURCE galileo/rai_wallet/plat/default/icon.cpp)
+		set (PLATFORM_WALLET_SOURCE galileo/galileo_wallet/plat/default/icon.cpp)
 	else ()
 		error ("Unknown platform: ${CMAKE_SYSTEM_NAME}")
 	endif ()
@@ -299,8 +299,8 @@ if (RAIBLOCKS_GUI)
 
 	add_executable (nano_wallet ${PLATFORM_GUI_TARGET_PROPERTIES}
 		${PLATFORM_WALLET_SOURCE}
-		galileo/rai_wallet/entry.cpp
-		galileo/rai_wallet/icon.hpp
+		galileo/galileo_wallet/entry.cpp
+		galileo/galileo_wallet/icon.hpp
 		${RES})
 
 	target_link_libraries (nano_wallet

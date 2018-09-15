@@ -1,4 +1,4 @@
-#include <galileo/rai_node/daemon.hpp>
+#include <galileo/galileo_node/daemon.hpp>
 
 #include <boost/property_tree/json_parser.hpp>
 #include <fstream>

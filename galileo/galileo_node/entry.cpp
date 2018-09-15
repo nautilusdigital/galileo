@@ -1,7 +1,7 @@
 #include <galileo/node/cli.hpp>
 #include <galileo/node/node.hpp>
 #include <galileo/node/testing.hpp>
-#include <galileo/rai_node/daemon.hpp>
+#include <galileo/galileo_node/daemon.hpp>
 
 #include <argon2.h>
 
