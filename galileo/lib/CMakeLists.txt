@@ -38,7 +38,7 @@ target_compile_definitions(galileo_lib
 		-DACTIVE_NETWORK=${ACTIVE_NETWORK}
 )
 
-if (RAIBLOCKS_GUI AND NOT APPLE)
+if (GALILEO_GUI AND NOT APPLE)
 	install(TARGETS galileo_lib
 			RUNTIME DESTINATION bin
 			LIBRARY DESTINATION lib

@@ -4,7 +4,7 @@
 #include <galileo/lib/interface.h>
 #include <galileo/node/node.hpp>
 
-#ifdef RAIBLOCKS_SECURE_RPC
+#ifdef GALILEO_SECURE_RPC
 #include <galileo/node/rpc_secure.hpp>
 #endif
 
@@ -993,7 +993,7 @@ void galileo::rpc_handler::block_count ()
 {
 	auto transaction (node.store.tx_begin_read ());
 	response_l.put ("count", std::to_string (node.store.block_count (transaction).sum ()));
-	response_l.put ("nonochecked_new", std::to_string (node.store.unchecked_count (transaction)));
+	response_l.put ("nonochecked_new3", std::to_string (node.store.unchecked_count (transaction)));
 	response_errors ();
 }
 
@@ -2897,7 +2897,7 @@ void galileo::rpc_handler::version ()
 {
 	response_l.put ("rpc_version", "1");
 	response_l.put ("store_version", std::to_string (node.store_version ()));
-	response_l.put ("node_vendor", boost::str (boost::format ("RaiBlocks %1%.%2%") % RAIBLOCKS_VERSION_MAJOR % RAIBLOCKS_VERSION_MINOR));
+	response_l.put ("node_vendor", boost::str (boost::format ("RaiBlocks %1%.%2%") % GALILEO_VERSION_MAJOR % GALILEO_VERSION_MINOR));
 	response_errors ();
 }
 
@@ -4208,7 +4208,7 @@ std::unique_ptr<galileo::rpc> galileo::get_rpc (boost::asio::io_service & servic
 
 	if (config_a.secure.enable)
 	{
-#ifdef RAIBLOCKS_SECURE_RPC
+#ifdef GALILEO_SECURE_RPC
 		impl.reset (new rpc_secure (service_a, node_a, config_a));
 #else
 		std::cerr << "RPC configured for TLS, but the node is not compiled with TLS support" << std::endl;

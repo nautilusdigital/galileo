@@ -12,11 +12,11 @@ mkdir build
 pushd build
 
 if [[ ${ASAN_INT-0} -eq 1 ]]; then
-    SANITIZERS="-DRAIBLOCKS_ASAN_INT=ON"
+    SANITIZERS="-DGALILEO_ASAN_INT=ON"
 elif [[ ${ASAN-0} -eq 1 ]]; then
-    SANITIZERS="-DRAIBLOCKS_ASAN=ON"
+    SANITIZERS="-DGALILEO_ASAN=ON"
 elif [[ ${TSAN-0} -eq 1 ]]; then
-    SANITIZERS="-DRAIBLOCKS_TSAN=ON"
+    SANITIZERS="-DGALILEO_TSAN=ON"
 else
     SANITIZERS=""
 fi
@@ -24,8 +24,8 @@ fi
 cmake \
     -G'Unix Makefiles' \
     -DACTIVE_NETWORK=galileo_test_network \
-    -DRAIBLOCKS_TEST=ON \
-    -DRAIBLOCKS_GUI=ON \
+    -DGALILEO_TEST=ON \
+    -DGALILEO_GUI=ON \
     -DCMAKE_BUILD_TYPE=Debug \
     -DCMAKE_VERBOSE_MAKEFILE=ON \
     -DBOOST_ROOT=/usr/local \

@@ -23,6 +23,6 @@ add_executable (core_test
 
 target_compile_definitions(core_test
 		PRIVATE
-			-DRAIBLOCKS_VERSION_MAJOR=${CPACK_PACKAGE_VERSION_MAJOR}
-			-DRAIBLOCKS_VERSION_MINOR=${CPACK_PACKAGE_VERSION_MINOR})
+			-DGALILEO_VERSION_MAJOR=${CPACK_PACKAGE_VERSION_MAJOR}
+			-DGALILEO_VERSION_MINOR=${CPACK_PACKAGE_VERSION_MINOR})
 target_link_libraries (core_test node secure gtest_main gtest libminiupnpc-static Boost::boost)

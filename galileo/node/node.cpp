@@ -1848,7 +1848,7 @@ stats (config.stat_config)
 			}
 		}
 	});
-	BOOST_LOG (log) << "Node starting, version: " << RAIBLOCKS_VERSION_MAJOR << "." << RAIBLOCKS_VERSION_MINOR;
+	BOOST_LOG (log) << "Node starting, version: " << GALILEO_VERSION_MAJOR << "." << GALILEO_VERSION_MINOR;
 	BOOST_LOG (log) << boost::str (boost::format ("Work pool running %1% threads") % work.threads.size ());
 	if (!init_a.error ())
 	{

@@ -1,4 +1,4 @@
-if (RAIBLOCKS_SECURE_RPC)
+if (GALILEO_SECURE_RPC)
 	set (secure_rpc_sources rpc_secure.cpp rpc_secure.hpp)
 endif ()
 
@@ -57,5 +57,5 @@ target_link_libraries (node
 
 target_compile_definitions(node
 	PRIVATE
-		-DRAIBLOCKS_VERSION_MAJOR=${CPACK_PACKAGE_VERSION_MAJOR}
-		-DRAIBLOCKS_VERSION_MINOR=${CPACK_PACKAGE_VERSION_MINOR})
+		-DGALILEO_VERSION_MAJOR=${CPACK_PACKAGE_VERSION_MAJOR}
+		-DGALILEO_VERSION_MINOR=${CPACK_PACKAGE_VERSION_MINOR})

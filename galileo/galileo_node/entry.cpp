@@ -473,7 +473,7 @@ int main (int argc, char * const * argv)
 		}
 		else if (vm.count ("version"))
 		{
-			std::cout << "Version " << RAIBLOCKS_VERSION_MAJOR << "." << RAIBLOCKS_VERSION_MINOR << std::endl;
+			std::cout << "Version " << GALILEO_VERSION_MAJOR << "." << GALILEO_VERSION_MINOR << std::endl;
 		}
 		else
 		{
