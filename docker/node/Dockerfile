@@ -17,7 +17,7 @@ ADD ./ /tmp/src
 
 RUN mkdir /tmp/build && \
     cd /tmp/build && \
-    cmake /tmp/src -DBOOST_ROOT=${BOOST_ROOT} -DACTIVE_NETWORK=rai_${NETWORK}_network && \
+    cmake /tmp/src -DBOOST_ROOT=${BOOST_ROOT} -DACTIVE_NETWORK=galileo_${NETWORK}_network && \
     make galileo_node && \
     cd .. && \
     echo ${NETWORK} > /etc/nano-network

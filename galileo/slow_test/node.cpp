@@ -5,8 +5,8 @@
 
 TEST (system, generate_mass_activity)
 {
-	rai::system system (24000, 1);
-	system.wallet (0)->insert_adhoc (rai::test_genesis_key.prv);
+	galileo::system system (24000, 1);
+	system.wallet (0)->insert_adhoc (galileo::test_genesis_key.prv);
 	size_t count (20);
 	system.generate_mass_activity (count, *system.nodes[0]);
 	size_t accounts (0);
@@ -19,9 +19,9 @@ TEST (system, generate_mass_activity)
 
 TEST (system, generate_mass_activity_long)
 {
-	rai::system system (24000, 1);
-	rai::thread_runner runner (system.service, system.nodes[0]->config.io_threads);
-	system.wallet (0)->insert_adhoc (rai::test_genesis_key.prv);
+	galileo::system system (24000, 1);
+	galileo::thread_runner runner (system.service, system.nodes[0]->config.io_threads);
+	system.wallet (0)->insert_adhoc (galileo::test_genesis_key.prv);
 	size_t count (1000000000);
 	system.generate_mass_activity (count, *system.nodes[0]);
 	size_t accounts (0);
@@ -38,21 +38,21 @@ TEST (system, receive_while_synchronizing)
 {
 	std::vector<std::thread> threads;
 	{
-		rai::system system (24000, 1);
-		rai::thread_runner runner (system.service, system.nodes[0]->config.io_threads);
-		system.wallet (0)->insert_adhoc (rai::test_genesis_key.prv);
+		galileo::system system (24000, 1);
+		galileo::thread_runner runner (system.service, system.nodes[0]->config.io_threads);
+		system.wallet (0)->insert_adhoc (galileo::test_genesis_key.prv);
 		size_t count (1000);
 		system.generate_mass_activity (count, *system.nodes[0]);
-		rai::keypair key;
-		rai::node_init init1;
-		auto node1 (std::make_shared<rai::node> (init1, system.service, 24001, rai::unique_path (), system.alarm, system.logging, system.work));
+		galileo::keypair key;
+		galileo::node_init init1;
+		auto node1 (std::make_shared<galileo::node> (init1, system.service, 24001, galileo::unique_path (), system.alarm, system.logging, system.work));
 		ASSERT_FALSE (init1.error ());
 		node1->network.send_keepalive (system.nodes[0]->network.endpoint ());
 		auto wallet (node1->wallets.create (1));
 		ASSERT_EQ (key.pub, wallet->insert_adhoc (key.prv));
 		node1->start ();
 		system.alarm.add (std::chrono::steady_clock::now () + std::chrono::milliseconds (200), ([&system, &key]() {
-			auto hash (system.wallet (0)->send_sync (rai::test_genesis_key.pub, key.pub, system.nodes[0]->config.receive_minimum.number ()));
+			auto hash (system.wallet (0)->send_sync (galileo::test_genesis_key.pub, key.pub, system.nodes[0]->config.receive_minimum.number ()));
 			auto transaction (system.nodes[0]->store.tx_begin ());
 			auto block (system.nodes[0]->store.block_get (transaction, hash));
 			std::string block_text;
@@ -75,29 +75,29 @@ TEST (system, receive_while_synchronizing)
 TEST (ledger, deep_account_compute)
 {
 	bool init (false);
-	rai::mdb_store store (init, rai::unique_path ());
+	galileo::mdb_store store (init, galileo::unique_path ());
 	ASSERT_FALSE (init);
-	rai::stat stats;
-	rai::ledger ledger (store, stats);
-	rai::genesis genesis;
+	galileo::stat stats;
+	galileo::ledger ledger (store, stats);
+	galileo::genesis genesis;
 	auto transaction (store.tx_begin (true));
 	store.initialize (transaction, genesis);
-	rai::keypair key;
-	auto balance (rai::genesis_amount - 1);
-	rai::send_block send (genesis.hash (), key.pub, balance, rai::test_genesis_key.prv, rai::test_genesis_key.pub, 0);
-	ASSERT_EQ (rai::process_result::progress, ledger.process (transaction, send).code);
-	rai::open_block open (send.hash (), rai::test_genesis_key.pub, key.pub, key.prv, key.pub, 0);
-	ASSERT_EQ (rai::process_result::progress, ledger.process (transaction, open).code);
+	galileo::keypair key;
+	auto balance (galileo::genesis_amount - 1);
+	galileo::send_block send (genesis.hash (), key.pub, balance, galileo::test_genesis_key.prv, galileo::test_genesis_key.pub, 0);
+	ASSERT_EQ (galileo::process_result::progress, ledger.process (transaction, send).code);
+	galileo::open_block open (send.hash (), galileo::test_genesis_key.pub, key.pub, key.prv, key.pub, 0);
+	ASSERT_EQ (galileo::process_result::progress, ledger.process (transaction, open).code);
 	auto sprevious (send.hash ());
 	auto rprevious (open.hash ());
 	for (auto i (0), n (100000); i != n; ++i)
 	{
 		balance -= 1;
-		rai::send_block send (sprevious, key.pub, balance, rai::test_genesis_key.prv, rai::test_genesis_key.pub, 0);
-		ASSERT_EQ (rai::process_result::progress, ledger.process (transaction, send).code);
+		galileo::send_block send (sprevious, key.pub, balance, galileo::test_genesis_key.prv, galileo::test_genesis_key.pub, 0);
+		ASSERT_EQ (galileo::process_result::progress, ledger.process (transaction, send).code);
 		sprevious = send.hash ();
-		rai::receive_block receive (rprevious, send.hash (), key.prv, key.pub, 0);
-		ASSERT_EQ (rai::process_result::progress, ledger.process (transaction, receive).code);
+		galileo::receive_block receive (rprevious, send.hash (), key.prv, key.pub, 0);
+		ASSERT_EQ (galileo::process_result::progress, ledger.process (transaction, receive).code);
 		rprevious = receive.hash ();
 		if (i % 100 == 0)
 		{
@@ -114,20 +114,20 @@ TEST (wallet, multithreaded_send)
 {
 	std::vector<std::thread> threads;
 	{
-		rai::system system (24000, 1);
-		rai::keypair key;
+		galileo::system system (24000, 1);
+		galileo::keypair key;
 		auto wallet_l (system.wallet (0));
-		wallet_l->insert_adhoc (rai::test_genesis_key.prv);
+		wallet_l->insert_adhoc (galileo::test_genesis_key.prv);
 		for (auto i (0); i < 20; ++i)
 		{
 			threads.push_back (std::thread ([wallet_l, &key]() {
 				for (auto i (0); i < 1000; ++i)
 				{
-					wallet_l->send_action (rai::test_genesis_key.pub, key.pub, 1000);
+					wallet_l->send_action (galileo::test_genesis_key.pub, key.pub, 1000);
 				}
 			}));
 		}
-		while (system.nodes[0]->balance (rai::test_genesis_key.pub) != (rai::genesis_amount - 20 * 1000 * 1000))
+		while (system.nodes[0]->balance (galileo::test_genesis_key.pub) != (galileo::genesis_amount - 20 * 1000 * 1000))
 		{
 			system.poll ();
 		}
@@ -140,7 +140,7 @@ TEST (wallet, multithreaded_send)
 
 TEST (store, load)
 {
-	rai::system system (24000, 1);
+	galileo::system system (24000, 1);
 	std::vector<std::thread> threads;
 	for (auto i (0); i < 100; ++i)
 	{
@@ -150,9 +150,9 @@ TEST (store, load)
 				auto transaction (system.nodes[0]->store.tx_begin (true));
 				for (auto j (0); j != 10; ++j)
 				{
-					rai::block_hash hash;
-					rai::random_pool.GenerateBlock (hash.bytes.data (), hash.bytes.size ());
-					system.nodes[0]->store.account_put (transaction, hash, rai::account_info ());
+					galileo::block_hash hash;
+					galileo::random_pool.GenerateBlock (hash.bytes.data (), hash.bytes.size ());
+					system.nodes[0]->store.account_put (transaction, hash, galileo::account_info ());
 				}
 			}
 		}));
@@ -165,26 +165,26 @@ TEST (store, load)
 
 TEST (node, fork_storm)
 {
-	rai::system system (24000, 64);
-	system.wallet (0)->insert_adhoc (rai::test_genesis_key.prv);
-	auto previous (system.nodes[0]->latest (rai::test_genesis_key.pub));
-	auto balance (system.nodes[0]->balance (rai::test_genesis_key.pub));
+	galileo::system system (24000, 64);
+	system.wallet (0)->insert_adhoc (galileo::test_genesis_key.prv);
+	auto previous (system.nodes[0]->latest (galileo::test_genesis_key.pub));
+	auto balance (system.nodes[0]->balance (galileo::test_genesis_key.pub));
 	ASSERT_FALSE (previous.is_zero ());
 	for (auto j (0); j != system.nodes.size (); ++j)
 	{
 		balance -= 1;
-		rai::keypair key;
-		rai::send_block send (previous, key.pub, balance, rai::test_genesis_key.prv, rai::test_genesis_key.pub, 0);
+		galileo::keypair key;
+		galileo::send_block send (previous, key.pub, balance, galileo::test_genesis_key.prv, galileo::test_genesis_key.pub, 0);
 		previous = send.hash ();
 		for (auto i (0); i != system.nodes.size (); ++i)
 		{
 			auto send_result (system.nodes[i]->process (send));
-			ASSERT_EQ (rai::process_result::progress, send_result.code);
-			rai::keypair rep;
-			auto open (std::make_shared<rai::open_block> (previous, rep.pub, key.pub, key.prv, key.pub, 0));
+			ASSERT_EQ (galileo::process_result::progress, send_result.code);
+			galileo::keypair rep;
+			auto open (std::make_shared<galileo::open_block> (previous, rep.pub, key.pub, key.prv, key.pub, 0));
 			system.nodes[i]->work_generate_blocking (*open);
 			auto open_result (system.nodes[i]->process (*open));
-			ASSERT_EQ (rai::process_result::progress, open_result.code);
+			ASSERT_EQ (galileo::process_result::progress, open_result.code);
 			auto transaction (system.nodes[i]->store.tx_begin ());
 			system.nodes[i]->network.republish_block (transaction, open);
 		}
@@ -198,7 +198,7 @@ TEST (node, fork_storm)
 	{
 		empty = 0;
 		single = 0;
-		std::for_each (system.nodes.begin (), system.nodes.end (), [&](std::shared_ptr<rai::node> const & node_a) {
+		std::for_each (system.nodes.begin (), system.nodes.end (), [&](std::shared_ptr<galileo::node> const & node_a) {
 			if (node_a->active.roots.empty ())
 			{
 				++empty;
@@ -321,7 +321,7 @@ TEST (broadcast, sqrt_broadcast_simulate)
 					for (auto j (0); j != broadcast_count; ++j)
 					{
 						++message_count;
-						auto entry (rai::random_pool.GenerateWord32 (0, node_count - 1));
+						auto entry (galileo::random_pool.GenerateWord32 (0, node_count - 1));
 						switch (nodes[entry])
 						{
 							case 0:
@@ -352,10 +352,10 @@ TEST (broadcast, sqrt_broadcast_simulate)
 TEST (peer_container, random_set)
 {
 	auto loopback (boost::asio::ip::address_v6::loopback ());
-	rai::peer_container container (rai::endpoint (loopback, 24000));
+	galileo::peer_container container (galileo::endpoint (loopback, 24000));
 	for (auto i (0); i < 200; ++i)
 	{
-		container.contacted (rai::endpoint (loopback, 24001 + i), 0);
+		container.contacted (galileo::endpoint (loopback, 24001 + i), 0);
 	}
 	auto old (std::chrono::steady_clock::now ());
 	for (auto i (0); i < 10000; ++i)
@@ -374,9 +374,9 @@ TEST (peer_container, random_set)
 
 TEST (store, unchecked_load)
 {
-	rai::system system (24000, 1);
+	galileo::system system (24000, 1);
 	auto & node (*system.nodes[0]);
-	auto block (std::make_shared<rai::send_block> (0, 0, 0, rai::test_genesis_key.prv, rai::test_genesis_key.pub, 0));
+	auto block (std::make_shared<galileo::send_block> (0, 0, 0, galileo::test_genesis_key.prv, galileo::test_genesis_key.pub, 0));
 	for (auto i (0); i < 1000000; ++i)
 	{
 		auto transaction (node.store.tx_begin (true));
@@ -388,12 +388,12 @@ TEST (store, unchecked_load)
 
 TEST (store, vote_load)
 {
-	rai::system system (24000, 1);
+	galileo::system system (24000, 1);
 	auto & node (*system.nodes[0]);
-	auto block (std::make_shared<rai::send_block> (0, 0, 0, rai::test_genesis_key.prv, rai::test_genesis_key.pub, 0));
+	auto block (std::make_shared<galileo::send_block> (0, 0, 0, galileo::test_genesis_key.prv, galileo::test_genesis_key.pub, 0));
 	for (auto i (0); i < 1000000; ++i)
 	{
-		auto vote (std::make_shared<rai::vote> (rai::test_genesis_key.pub, rai::test_genesis_key.prv, i, block));
+		auto vote (std::make_shared<galileo::vote> (galileo::test_genesis_key.pub, galileo::test_genesis_key.prv, i, block));
 		node.vote_processor.vote (vote, system.nodes[0]->network.endpoint ());
 	}
 }

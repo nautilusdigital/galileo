@@ -305,7 +305,7 @@ namespace detail
 	using invoke_result_t = typename invoke_result<F, Us...>::type;
 #endif
 
-	// Trait for checking if a type is a tl::expected
+	// Tgalileot for checking if a type is a tl::expected
 	template <class T>
 	struct is_expected_impl : std::false_type
 	{

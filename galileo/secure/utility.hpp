@@ -16,7 +16,7 @@
 #include <galileo/lib/interface.h>
 #include <galileo/lib/numbers.hpp>
 
-namespace rai
+namespace galileo
 {
 using bufferstream = boost::iostreams::stream_buffer<boost::iostreams::basic_array_source<uint8_t>>;
 using vectorstream = boost::iostreams::stream_buffer<boost::iostreams::back_insert_device<std::vector<uint8_t>>>;
@@ -61,7 +61,7 @@ template <typename T>
 bool fetch_object (T & object, boost::filesystem::path const & path_a, std::fstream & stream_a)
 {
 	bool error (false);
-	rai::open_or_create (stream_a, path_a.string ());
+	galileo::open_or_create (stream_a, path_a.string ());
 	if (!stream_a.fail ())
 	{
 		boost::property_tree::ptree tree;
