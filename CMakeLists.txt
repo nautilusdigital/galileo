@@ -227,10 +227,10 @@ add_library (blake2
 
 target_compile_definitions(blake2 PRIVATE -D__SSE2__)
 
-add_subdirectory(rai/secure)
-add_subdirectory(rai/lib)
-add_subdirectory(rai/node)
-add_subdirectory(rai/rai_node)
+add_subdirectory(galileo/secure)
+add_subdirectory(galileo/lib)
+add_subdirectory(galileo/node)
+add_subdirectory(galileo/rai_node)
 
 if (RAIBLOCKS_TEST)
     if(WIN32)
@@ -252,8 +252,8 @@ if (RAIBLOCKS_TEST)
 	set_target_properties(gtest PROPERTIES INTERFACE_INCLUDE_DIRECTORIES
 		"${CMAKE_SOURCE_DIR}/gtest/include")
 
-	add_subdirectory(rai/core_test)
-	add_subdirectory(rai/slow_test)
+	add_subdirectory(galileo/core_test)
+	add_subdirectory(galileo/slow_test)
 endif ()
 
 if (RAIBLOCKS_GUI)
@@ -266,11 +266,11 @@ if (RAIBLOCKS_GUI)
 	find_package (Qt5 COMPONENTS Core Gui Widgets Test ${PLATFORM_QT_PACKAGES})
 
 	add_library (qt
-		rai/qt/qt.cpp
-		rai/qt/qt.hpp)
+		galileo/qt/qt.cpp
+		galileo/qt/qt.hpp)
 
 	target_link_libraries(qt
-		secure rai_lib node libminiupnpc-static Qt5::Gui Qt5::Widgets)
+		secure galileo_lib node libminiupnpc-static Qt5::Gui Qt5::Widgets)
 
 	target_compile_definitions(qt
 		PRIVATE
@@ -284,13 +284,13 @@ if (RAIBLOCKS_GUI)
 	endif ()
 
 	if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-		set (PLATFORM_WALLET_SOURCE rai/rai_wallet/plat/default/icon.cpp)
+		set (PLATFORM_WALLET_SOURCE galileo/rai_wallet/plat/default/icon.cpp)
 	elseif (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-		set (PLATFORM_WALLET_SOURCE rai/rai_wallet/plat/windows/icon.cpp RaiBlocks.rc)
+		set (PLATFORM_WALLET_SOURCE galileo/rai_wallet/plat/windows/icon.cpp RaiBlocks.rc)
 	elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-		set (PLATFORM_WALLET_SOURCE rai/rai_wallet/plat/default/icon.cpp)
+		set (PLATFORM_WALLET_SOURCE galileo/rai_wallet/plat/default/icon.cpp)
 	elseif (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
-		set (PLATFORM_WALLET_SOURCE rai/rai_wallet/plat/default/icon.cpp)
+		set (PLATFORM_WALLET_SOURCE galileo/rai_wallet/plat/default/icon.cpp)
 	else ()
 		error ("Unknown platform: ${CMAKE_SYSTEM_NAME}")
 	endif ()
@@ -299,8 +299,8 @@ if (RAIBLOCKS_GUI)
 
 	add_executable (nano_wallet ${PLATFORM_GUI_TARGET_PROPERTIES}
 		${PLATFORM_WALLET_SOURCE}
-		rai/rai_wallet/entry.cpp
-		rai/rai_wallet/icon.hpp
+		galileo/rai_wallet/entry.cpp
+		galileo/rai_wallet/icon.hpp
 		${RES})
 
 	target_link_libraries (nano_wallet
@@ -312,7 +312,7 @@ if (RAIBLOCKS_GUI)
 	endif()
 
 	add_executable (qt_system
-		rai/qt_system/entry.cpp)
+		galileo/qt_system/entry.cpp)
 
 	target_link_libraries (qt_system qt node Qt5::Gui Qt5::Widgets)
 
@@ -320,8 +320,8 @@ if (RAIBLOCKS_GUI)
 
 	if (RAIBLOCKS_TEST)
 		add_executable (qt_test
-			rai/qt_test/entry.cpp
-			rai/qt_test/qt.cpp)
+			galileo/qt_test/entry.cpp
+			galileo/qt_test/qt.cpp)
 
 		target_link_libraries(qt_test gtest gtest_main qt Qt5::Test)
 
