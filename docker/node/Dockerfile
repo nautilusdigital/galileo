@@ -23,7 +23,7 @@ RUN mkdir /tmp/build && \
     echo ${NETWORK} > /etc/nano-network
 
 FROM ubuntu:16.04
-COPY --from=0 /tmp/build/rai_node /usr/bin
+COPY --from=0 /tmp/build/galileo_node /usr/bin
 COPY --from=0 /etc/nano-network /etc
 COPY docker/node/entry.sh /entry.sh
 COPY docker/node/config /usr/share/raiblocks/config

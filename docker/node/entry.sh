@@ -48,7 +48,7 @@ while true; do
 				fi
 			done
 
-			rai_node --vacuum
+			galileo_node --vacuum
 		fi
 	fi
 
@@ -59,7 +59,7 @@ while true; do
 	fi
 
 	if [ -z "${pid}" ]; then
-		rai_node --daemon &
+		galileo_node --daemon &
 		pid="$!"
 	fi
 done
