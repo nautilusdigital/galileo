@@ -14,3 +14,9 @@ jobs:
 
           docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
           docker push nautilusdigital/galileo-node:latest
+
+workflows:
+  version: 2
+  kaboom:
+    jobs:
+      - push_to_dockerhub
