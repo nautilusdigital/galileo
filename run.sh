@@ -1,6 +1,6 @@
-docker rmi galileo-node raiblocks-node -f
-
 docker kill $(docker ps -q)
+
+docker rmi galileo-node raiblocks-node -f
 
 git submodule update --init --recursive
 
