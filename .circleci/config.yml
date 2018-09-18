@@ -1,0 +1,16 @@
+version: 2
+jobs:
+
+  push_to_dockerhub:
+    docker:
+      - image: nautilusdigital/node-builder:latest
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - run: |
+          docker build --build-arg NETWORK="${network}" -f docker/node/Dockerfile -t galileo-node:latest .
+
+          docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+          docker push nautilusdigital/galileo-node:latest
