@@ -25,7 +25,7 @@ dbFile="${nanodir}/data.ldb"
 mkdir -p "${nanodir}"
 if [ ! -f "${nanodir}/config.json" ]; then
         echo "Config File not found, adding default."
-        cp "/usr/share/raiblocks/config/${network}.json" "${nanodir}/config.json"
+        cp "/usr/share/galileo/config/${network}.json" "${nanodir}/config.json"
 fi
 
 pid=''
