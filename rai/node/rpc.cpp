@@ -993,7 +993,7 @@ void rai::rpc_handler::block_count ()
 {
 	auto transaction (node.store.tx_begin_read ());
 	response_l.put ("count", std::to_string (node.store.block_count (transaction).sum ()));
-	response_l.put ("unchecked", std::to_string (node.store.unchecked_count (transaction)));
+	response_l.put ("unchecked_new", std::to_string (node.store.unchecked_count (transaction)));
 	response_errors ();
 }
 
