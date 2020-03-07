@@ -3,18 +3,17 @@
     "rpc_enable": "true",
     "rpc": {
         "address": "::ffff:0.0.0.0",
-        "port": "7076",
+        "port": "55000",
         "enable_control": "true",
         "frontier_request_limit": "16384",
         "chain_request_limit": "16384"
     },
     "node": {
-        "version": "12",
-        "peering_port": "7075",
+        "peering_port": "54000",
         "bootstrap_fraction_numerator": "1",
         "receive_minimum": "1000000000000000000000000",
         "logging": {
-            "version": "3",
+            "version": "5",
             "ledger": "false",
             "ledger_duplicate": "false",
             "vote": "false",
@@ -32,23 +31,18 @@
             "log_to_cerr": "false",
             "max_size": "16777216",
             "rotation_size": "4194304",
-            "flush": "false"
+            "flush": "false",
+            "upnp_details": "false"
         },
         "work_peers": "",
         "preconfigured_peers": [
-            "galileo.net"
+            "node-001.galileocoin.com",
+	    "node-002.galileocoin.com"
         ],
         "preconfigured_representatives": [
-            "xrb_3arg3asgtigae3xckabaaewkx3bzsh7nwz7jkmjos79ihyaxwphhm6qgjps4",
-            "xrb_1stofnrxuz3cai7ze75o174bpm7scwj9jn3nxsn8ntzg784jf1gzn1jjdkou",
-            "xrb_1q3hqecaw15cjt7thbtxu3pbzr1eihtzzpzxguoc37bj1wc5ffoh7w74gi6p",
-            "xrb_3dmtrrws3pocycmbqwawk6xs7446qxa36fcncush4s1pejk16ksbmakis78m",
-            "xrb_3hd4ezdgsp15iemx7h81in7xz5tpxi43b6b41zn3qmwiuypankocw3awes5k",
-            "xrb_1awsn43we17c1oshdru4azeqjz9wii41dy8npubm4rg11so7dx3jtqgoeahy",
-            "xrb_1anrzcuwe64rwxzcco8dkhpyxpi8kd7zsjc1oeimpc3ppca4mrjtwnqposrs",
-            "xrb_1hza3f7wiiqa7ig3jczyxj5yo86yegcmqk3criaz838j91sxcckpfhbhhra1"
+            "xrb_3e3j5tkog48pnny9dmfzj1r16pg8t1e76dz5tmac6iq689wyjfpiij4txtdo"
         ],
-        "online_weight_minimum": "60000000000000000000000000000000000000",
+        "online_weight_minimum": "20000000000000000000000000000000000000",
         "online_weight_quorum": "50",
         "password_fanout": "1024",
         "io_threads": "4",
@@ -60,8 +54,9 @@
         "callback_port": "0",
         "callback_target": "",
         "lmdb_max_dbs": "128",
-        "state_block_parse_canary": "991CF190094C00F0B68E2E5F75F6BEE95A2E0BD93CEAA4A6734DB9F19B728948",
-        "state_block_generate_canary": "991CF190094C00F0B68E2E5F75F6BEE95A2E0BD93CEAA4A6734DB9F19B728948"
+        "network_threads": "4",
+        "block_processor_batch_max_time": "5000",
+        "version": "15"
     },
     "opencl_enable": "false",
     "opencl": {

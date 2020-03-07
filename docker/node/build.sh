@@ -1,6 +1,6 @@
 #!/bin/bash
 
-network='live'
+network='test'
 
 print_usage() {
 	echo 'build.sh [-h] [-n {live|beta|test}]'
